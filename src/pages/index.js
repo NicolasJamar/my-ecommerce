@@ -2,11 +2,13 @@ import Head from 'next/head'
 import Image from 'next/image'
 import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
+import { initiateCheckout } from '../../lib/payments'
+import products from "../../products.json";
+
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
-  console.log("API KEY STRIPE", process.env.NEXT_PUBLIC_STRIPE_API_KEY);
   return (
     <>
       <Head>
@@ -23,56 +25,39 @@ export default function Home() {
         </div>
 
         <ul className={styles.grid}>
-          <li className={styles.card}>
-            <a
-              href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <img src="/images/spacejelly-tshirt.jpg" atl="Space Jelly Tshirt"/>
-              <h3 className={inter.className}>
-                Space Jelly Tshirt	
-              </h3>
-              <p className={inter.className}>
-                Bring Cosmo the space Jellyfish to your wardrobe with this high quality tshirt.
+          {products.map( product => {
+            const {id, title, image, description, price} = product
+            return (
+            <li key={id} className={styles.card}>
+              <a
+                href="#"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img src={image} atl={title}/>
+                <h3 className={inter.className}>
+                  {title}	
+                </h3>
+                <p className={styles.price} >{price} €</p>
+                <p className={inter.className}>
+                  {description}
+                </p>
+              </a>
+              <p>
+                <button className={styles.button} onClick={() => { 
+                  initiateCheckout({
+                    lineItems: [{
+                      price: id, // Replace with the ID of your price
+                      quantity: 1,
+                    }]
+                  }) 
+                }}>
+                    Buy Now!
+                </button>
               </p>
-            </a>
-            <p>
-              <button className="button">Buy Now!</button>
-            </p>
-          </li>
+            </li>)
 
-          <li className={styles.card}>
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <img src="/images/spacejelly-stickers.jpg" atl="Space Jelly Stickers"/>
-              <h3 className={inter.className}>
-                Space Jelly Stickers	
-              </h3>
-              <p className={inter.className}>
-                Add some flare to your laptop with a sticker of Cosmo the Space Jellyfish.
-              </p>
-            </a>
-          </li>
-
-          <li className={styles.card}>
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <img src="/images/spacejelly-combo.jpg" atl="Space Jelly Combo"/>
-              <h3 className={inter.className}>
-                Space Jelly Combo	
-              </h3>
-              <p className={inter.className}>
-                Show your love for Cosmo with a tshirt and sticker combo pack!
-              </p>
-            </a>
-          </li>
+          })}
         </ul>
       </main>
     </>

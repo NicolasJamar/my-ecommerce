@@ -59,17 +59,22 @@
   transition: transform 200ms;
 }
 
-.card h2 {
-  font-weight: 600;
+.card h3 {
+  font-weight: 700;
   margin-bottom: 0.7rem;
 }
 
 .card p {
   margin: 0;
+  margin-bottom: 0.8rem;
   opacity: 0.6;
   font-size: 0.9rem;
   line-height: 1.5;
   max-width: 30ch;
+}
+
+.card img {
+  margin-bottom: 0.8rem;
 }
 
 .center {
@@ -81,14 +86,26 @@
   position: relative;
 }
 
+.price {
+  font-weight: 600;
+  font-size: 1.4em !important;
+}
+
 .button {
   color: white;
-  font-family: inherit;
   font-style: .9em;
   font-weight: 700;
   background-color: blueviolet;
   padding: .8em 1.4em;
-  background-repeat: 1.2em;
+  border-radius: .2em;
+  border: 0;
+  box-shadow: 0 2px 6px rgba(0,0,0,.4);
+  cursor: pointer;
+}
+
+.button:hover {
+  color: blueviolet;
+  background-color: #fff;
 }
 
 
@@ -106,9 +123,6 @@
 }
 
 @media (prefers-reduced-motion) {
-  .thirteen::before {
-    animation: none;
-  }
 
   .card:hover span {
     transform: none;
@@ -204,8 +218,7 @@
     filter: invert(1);
   }
 
-  .logo,
-  .thirteen img {
+  .logo {
     filter: invert(1) drop-shadow(0 0 0.3rem #ffffff70);
   }
 }
