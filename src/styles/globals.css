@@ -100,6 +100,14 @@ a {
   text-decoration: none;
 }
 
+img {
+  max-width: 100%;
+}
+
+ul {
+  list-style-type: none;
+}
+
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
