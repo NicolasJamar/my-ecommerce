@@ -16,7 +16,7 @@ const Nav = () => {
       </p>
       <p className={styles.navCart}>
         <button>
-          <FaShoppingCart /> ${subtotal}
+          <FaShoppingCart /> {subtotal}€
         </button>
       </p>
     </nav>
