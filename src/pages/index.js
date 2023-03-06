@@ -1,14 +1,31 @@
+import { useState } from 'react';
 import Head from 'next/head'
-import Image from 'next/image'
 import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
 import { initiateCheckout } from '../../lib/payments'
 import products from "../../products.json";
 
-
 const inter = Inter({ subsets: ['latin'] })
 
+const defaultCart = {
+  products: {}
+}
+
 export default function Home() {
+
+  const [cart, updateCart] = useState(defaultCart);
+
+  const addToCart = ({id} = {}) => {
+    updateCart(prev => {
+      let cartState = {...prev};
+      if(cartState.id === id) {
+        cartState.quantity++ 
+      } else {
+        cartState.quantity = 1
+      }
+    })
+  }
+
   return (
     <>
       <Head>
@@ -18,10 +35,20 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-
+ 
         <div className={styles.center}>
           <h1>Space Jelly Shop</h1>
           <h2>The best Jellyfish swag on the web</h2>
+        </div>
+
+        <div className={styles.center}>
+          <p>
+            <strong>Items:</strong> 2
+            <br />
+            <strong>Total Cost:</strong> 20€
+            <br />
+            <button className={styles.button.checkout}>Check Out</button>
+          </p>
         </div>
 
         <ul className={styles.grid}>
@@ -45,14 +72,15 @@ export default function Home() {
               </a>
               <p>
                 <button className={styles.button} onClick={() => { 
-                  initiateCheckout({
-                    lineItems: [{
-                      price: id, // Replace with the ID of your price
-                      quantity: 1,
-                    }]
-                  }) 
+                  // initiateCheckout({
+                  //   lineItems: [{
+                  //     price: id, // Replace with the ID of your price
+                  //     quantity: 1,
+                  //   }]
+                  // }) 
+                  addToCart(id)
                 }}>
-                    Buy Now!
+                    Add to Cart
                 </button>
               </p>
             </li>)
