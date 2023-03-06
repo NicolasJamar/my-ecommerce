@@ -14,15 +14,37 @@ const defaultCart = {
 export default function Home() {
 
   const [cart, updateCart] = useState(defaultCart);
+  //console.log('cart', cart);
+
+  const cartItems = Object.keys(cart.products).map( key => {
+    const product = products.find( ({id}) => `${id}` === `${key}` )
+    return {
+      ...cart.products[key],
+      pricePerItem: product.price
+    }
+  })
+
+  const subtotal = cartItems.reduce( (accumulator, {pricePerItem, quantity} ) => {
+    const totalPrice = accumulator + (pricePerItem * quantity)
+    return totalPrice
+  }, 0)
+
+  console.log('cartItems', cartItems);
+  console.log('subtotal', subtotal);
 
   const addToCart = ({id} = {}) => {
     updateCart(prev => {
       let cartState = {...prev};
-      if(cartState.id === id) {
-        cartState.quantity++ 
+
+      if(cartState.products[id]) {
+        cartState.products[id].quantity = cartState.products[id].quantity + 1;
       } else {
-        cartState.quantity = 1
+        cartState.products[id] = {
+          id,
+          quantity: 1
+        }
       }
+      return cartState
     })
   }
 
@@ -34,6 +56,7 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+
       <main className={styles.main}>
  
         <div className={styles.center}>
@@ -78,7 +101,7 @@ export default function Home() {
                   //     quantity: 1,
                   //   }]
                   // }) 
-                  addToCart(id)
+                  addToCart({id})
                 }}>
                     Add to Cart
                 </button>
