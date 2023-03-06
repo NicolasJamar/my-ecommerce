@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Head from 'next/head'
 import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
+
 import { initiateCheckout } from '../../lib/payments'
 import products from "../../products.json";
 
@@ -29,8 +30,10 @@ export default function Home() {
     return totalPrice
   }, 0)
 
-  console.log('cartItems', cartItems);
-  console.log('subtotal', subtotal);
+  const totalItems = cartItems.reduce( (accumulator, {quantity} ) => {
+    const items = accumulator + (quantity)
+    return items
+  }, 0)
 
   const addToCart = ({id} = {}) => {
     updateCart(prev => {
@@ -45,6 +48,21 @@ export default function Home() {
         }
       }
       return cartState
+    })
+  }
+
+  const checkout = () => {
+    initiateCheckout({
+      lineItems: cartItems.map( item => {
+        return {
+          price: item.id,
+          quantity: item.quantity
+        }
+      })
+      // lineItems: [{
+      //   price: id, // Replace with the ID of your price
+      //   quantity: 1,
+      // }]
     })
   }
 
@@ -66,11 +84,11 @@ export default function Home() {
 
         <div className={styles.center}>
           <p>
-            <strong>Items:</strong> 2
+            <strong>Items:</strong> {totalItems}
             <br />
-            <strong>Total Cost:</strong> 20€
+            <strong>Total Cost:</strong> {subtotal}€
             <br />
-            <button className={styles.button.checkout}>Check Out</button>
+            <button className={styles.button} onClick={checkout}>Check Out</button>
           </p>
         </div>
 
@@ -95,12 +113,6 @@ export default function Home() {
               </a>
               <p>
                 <button className={styles.button} onClick={() => { 
-                  // initiateCheckout({
-                  //   lineItems: [{
-                  //     price: id, // Replace with the ID of your price
-                  //     quantity: 1,
-                  //   }]
-                  // }) 
                   addToCart({id})
                 }}>
                     Add to Cart
