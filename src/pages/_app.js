@@ -2,7 +2,7 @@ import '@/styles/globals.css';
 
 import { CartContext, useCartState } from '../../hooks/use-cart';
 
-import Nav from '../components/Nav';
+import Nav from '../components/Nav/Nav';
 
 export default function App({ Component, pageProps }) {
   const cart = useCartState()
