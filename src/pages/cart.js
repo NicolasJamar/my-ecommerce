@@ -35,10 +35,15 @@ export default function Home() {
   const data = cartItems.map( item => {
     const product = products.find( ({id}) => id === item.id);
 
+    function handleOnSubmit(e) {
+      e.preventDefault();
+      console.log("submit", e.currentTarget.quantity.value);
+    }
+
     const Quantity = (() => {
       return (
         <form className={styles.cartQuantity} onSubmit={handleOnSubmit}>
-          <input name="quantity" type="number" min={0} defaultValue={quantity} />
+          <input name="quantity" type="number" min={0} defaultValue={item.quantity} />
           <button className={styles.button}>Update</button>
         </form>
       )
@@ -46,6 +51,7 @@ export default function Home() {
 
     return {
       ...item,
+      quantity: <Quantity/>,
       title: product.title,
       total: item.quantity * item.pricePerItem
     }
