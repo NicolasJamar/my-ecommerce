@@ -34,12 +34,23 @@ export default function Home() {
 
   const data = cartItems.map( item => {
     const product = products.find( ({id}) => id === item.id);
+
+    const Quantity = (() => {
+      return (
+        <form className={styles.cartQuantity} onSubmit={handleOnSubmit}>
+          <input name="quantity" type="number" min={0} defaultValue={quantity} />
+          <button className={styles.button}>Update</button>
+        </form>
+      )
+    })
+
     return {
       ...item,
       title: product.title,
       total: item.quantity * item.pricePerItem
     }
   })
+
 
   return (
     <div className={`${styles.container} ${inter.className}`}>

@@ -174,3 +174,13 @@
   box-shadow: none;
   padding: 0;
 }
+
+.cartQuantity input {
+  width: 5em;
+  padding: .45em;
+}
+
+.cartQuantity button {
+  font-size: .6em;
+  margin-left: 1em;
+}
