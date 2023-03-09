@@ -23,7 +23,7 @@ export default function Home() {
       <main className={styles.main}>
  
         <div>
-          <h2 className={inter.className}>The best Jellyfish swag on the web</h2>
+          <h2 className={inter.className}>The best fake e-commerce on the web</h2>
         </div>
 
         <div className={styles.center}>

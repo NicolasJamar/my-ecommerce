@@ -29,18 +29,24 @@ const columns = [
 ];
 
 export default function Home() {
-  const {cartItems, checkout} = useCart();
+  const {cartItems, updateItem, checkout} = useCart();
   console.log("cartitems", cartItems);
 
   const data = cartItems.map( item => {
     const product = products.find( ({id}) => id === item.id);
 
-    function handleOnSubmit(e) {
-      e.preventDefault();
-      console.log("submit", e.currentTarget.quantity.value);
-    }
-
+    
     const Quantity = (() => {
+      function handleOnSubmit(e) {
+        e.preventDefault();
+        const quantity = e.currentTarget.quantity.value;
+
+        updateItem({
+          id: item.id, 
+          quantity: quantity && parseInt(quantity)
+        })
+      }
+
       return (
         <form className={styles.cartQuantity} onSubmit={handleOnSubmit}>
           <input name="quantity" type="number" min={0} defaultValue={item.quantity} />
